@@ -1,8 +1,22 @@
 import React from "react";
 
+//Functional Controller Component to handle the Click-Rotate operations in the Ipod
 const Controller = (props) => {
-	const { menu, rotate, tap, isMenuVisible, addClass, removeClass, mouse } =
-		props;
+	const {
+		menu,
+		rotate,
+		tap,
+		isMenuVisible,
+		addClass,
+		removeClass,
+		mouse,
+		screen,
+		controllerRef,
+		play,
+		songsList,
+		nextSong,
+		prevSong,
+	} = props;
 	return (
 		<div
 			className="controller-container"
@@ -24,6 +38,7 @@ const Controller = (props) => {
 			<div
 				className="controller"
 				draggable="false"
+				ref={controllerRef}
 				style={styles.controller}
 				onClick={(e) => {
 					e.stopPropagation();
@@ -51,7 +66,7 @@ const Controller = (props) => {
 					style={{ height: 80, width: 80 }}
 					onClick={(e) => {
 						e.stopPropagation();
-						tap(menu);
+						tap(menu, screen);
 						return;
 					}}
 					onMouseDown={(e) => {
@@ -70,7 +85,7 @@ const Controller = (props) => {
 					draggable="false"
 					onClick={(e) => {
 						e.stopPropagation();
-						isMenuVisible(menu);
+						isMenuVisible(menu, screen);
 						return;
 					}}
 				>
@@ -84,6 +99,9 @@ const Controller = (props) => {
 						alt="forward"
 						style={styles.forward}
 						draggable="false"
+						onClick={() => {
+							nextSong(songsList);
+						}}
 					/>
 				</div>
 				<div className="backward" draggable="false">
@@ -92,9 +110,18 @@ const Controller = (props) => {
 						alt="backward"
 						style={styles.backward}
 						draggable="false"
+						onClick={() => {
+							prevSong(songsList);
+						}}
 					/>
 				</div>
-				<div className="play-pause" draggable="false">
+				<div
+					className="play-pause"
+					draggable="false"
+					onClick={() => {
+						play(songsList);
+					}}
+				>
 					<img
 						src="https://cdn-icons-png.flaticon.com/512/64/64595.png"
 						alt="play-pause"
@@ -113,33 +140,29 @@ const styles = {
 		width: 230,
 	},
 	forward: {
-		height: 40,
-		width: 40,
-		position: "absolute",
-		top: "92px",
-		right: "22px",
+		height: 56,
+		width: 60,
+		cursor: "pointer",
+		padding: "10px",
 	},
 	backward: {
-		height: 40,
-		width: 40,
+		height: 55,
+		width: 60,
 		transform: "rotate(180deg)",
-		position: "absolute",
-		top: "92px",
-		left: "20px",
+		cursor: "pointer",
+		padding: "10px",
 	},
 	menu: {
 		fontWeight: "bolder",
 		fontSize: 27,
-		position: "absolute",
-		top: "25px",
-		left: "74px",
+		cursor: "pointer",
+		padding: "5px",
 	},
 	resume: {
-		height: 28,
-		width: 38,
-		position: "absolute",
-		bottom: "24px",
-		left: "98px",
+		height: "50px",
+		width: "60px",
+		cursor: "pointer",
+		padding: "12px",
 	},
 };
 
